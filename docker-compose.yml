@@ -3,7 +3,7 @@ version: '3.9'
 services:
   db:
     image: postgres:15
-    restart: always
+    restart: no
     environment:
       POSTGRES_DB: easy_os
       POSTGRES_USER: easy
