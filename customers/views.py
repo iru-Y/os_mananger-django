@@ -5,10 +5,7 @@ from .permissions import IsCustomerOwner
 
 class CustomerViewSet(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
-    permission_classes = [
-        permissions.IsAuthenticated,
-        IsCustomerOwner            
-    ]
+    permission_classes = [permissions.IsAuthenticated, IsCustomerOwner]
 
     def get_queryset(self):
         return Customer.objects.filter(user=self.request.user)
