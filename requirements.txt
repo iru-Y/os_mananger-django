@@ -4,3 +4,5 @@ python-decouple
 djangorestframework
 gunicorn
 djangorestframework-simplejwt
+reportlab
+pillow
