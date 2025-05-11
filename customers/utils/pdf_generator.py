@@ -3,10 +3,9 @@ from io import BytesIO
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
 from reportlab.pdfgen import canvas
-from django.conf import settings 
+from django.conf import settings
 
 def generate_os_pdf(customer):
-  
     buffer = BytesIO()
     c = canvas.Canvas(buffer, pagesize=A4)
     w, h = A4
@@ -28,22 +27,19 @@ def generate_os_pdf(customer):
 
     c.setFont("Helvetica", 10)
     c.drawString(20*mm, header_y-25*mm, "Rua seu endereço:")
-
     y = header_y - 35*mm
-    c.setFont("Helvetica", 10)
     c.drawString(20*mm, y, "Data: ________/________/________")
     c.drawString(80*mm, y, f"Cliente: {customer.full_name}")
     c.drawString(150*mm, y, f"Cel: {customer.phone}")
 
     y -= 7*mm
-    c.drawString(20*mm, y, f"CPF: {customer.cpf if hasattr(customer, 'cpf') else '___________'}")
+    c.drawString(20*mm, y, f"CPF: {getattr(customer, 'cpf', '___________')}")
     c.drawString(80*mm, y, f"E-mail: {customer.email}")
 
     y -= 15*mm
     c.setFont("Helvetica-Bold", 12)
     c.drawString(20*mm, y, "DESCRIÇÃO DO EQUIPAMENTO")
     c.setFont("Helvetica", 10)
-
     y -= 7*mm
     c.drawString(20*mm, y, f"Aparelho: {getattr(customer, 'aparelho', '________________')}")
     y -= 7*mm
@@ -77,7 +73,6 @@ def generate_os_pdf(customer):
     c.drawString(20*mm, y, "QNT")
     c.drawString(40*mm, y, "DESCRIÇÃO DOS PRODUTOS")
     c.drawString(140*mm, y, "VALOR R$")
-
     for i in range(6):
         yy = y - 5*mm - i*7*mm
         c.line(20*mm, yy, 190*mm, yy)
@@ -89,7 +84,6 @@ def generate_os_pdf(customer):
 
     y -= 10*mm
     c.drawString(20*mm, y, "Ass. Cliente: ________________________________")
-
     y -= 10*mm
     c.setFont("Helvetica", 6)
     c.drawString(20*mm, y, "1- A GARANTIA dos serviços executados é de 60 (sessenta) dias ...")
@@ -98,6 +92,5 @@ def generate_os_pdf(customer):
 
     c.showPage()
     c.save()
-
     buffer.seek(0)
     return buffer

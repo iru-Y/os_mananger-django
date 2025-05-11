@@ -6,3 +6,4 @@ gunicorn
 djangorestframework-simplejwt
 reportlab
 pillow
+whitenoise
