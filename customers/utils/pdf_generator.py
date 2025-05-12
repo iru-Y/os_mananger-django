@@ -24,7 +24,7 @@ def generate_os_pdf(customer):
     c.drawString(20*mm, h-20*mm, "[Logo]")
     c.drawString(55*mm, h-20*mm, "JamesCell - Assistência Técnica")
     c.setFont("Helvetica", 9)
-    c.drawString(55*mm, h-25*mm, "VQ XXXXX - XXXX | Sigamos, Endereço da Liga")
+    c.drawString(55*mm, h-25*mm, "99 8443-7903 | 99 991542276 | Mercado da rodoviária box 27")
 
     c.setStrokeColor(colors.grey)
     c.setLineWidth(0.5)
@@ -66,34 +66,55 @@ def generate_os_pdf(customer):
     t2.drawOn(c, 20*mm, y-h2)
 
     y = y - h2 - 15*mm
+
     approval_data = [
-        ['Responsável Técnico:'],
-        ['Cláusulas:', 'Sem Recurso | Sem Cláusula'],
+        ['Responsável Técnico:', '_______________________________'],
+        ['Assinatura do Cliente:', '_______________________________'],
+        ['Cláusulas:', '1. Garantia de 30 dias para serviços prestados, conforme Código de Defesa do \nConsumidor.'],
+        ['', '2. A garantia cobre apenas os serviços realizados e não abrange danos causados \npor mau uso ou outros fatores externos.'],
+        ['', '3. A senha de desbloqueio fornecida será utilizada exclusivamente para os \ntestes técnicos e será removida após a conclusão do serviço.']
     ]
+
     t3 = Table(approval_data, colWidths=[50*mm, 120*mm])
     t3.setStyle(TableStyle([
-        ('FONTNAME', (0,0), (-1,-1), 'Helvetica'),
-        ('FONTSIZE',  (0,0), (-1,-1), 10),
-        ('LINEBELOW',(1,0),(1,0), 0.25, colors.gray),
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+        ('FONTSIZE',  (0, 0), (-1, -1), 10),
+        ('TOPPADDING', (0, 0), (-1, -1), 5),             
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 25),         
+        ('LEFTPADDING', (0, 0), (-1, -1), 2),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 2),
     ]))
+
     w3, h3 = t3.wrapOn(c, w, h)
-    t3.drawOn(c, 20*mm, y-h3 - 20*mm)
+    t3.drawOn(c, 20*mm, y - h3 - 25*mm)
+
+
 
     dot_start_x = w - 20*mm - 40*mm
     dot_y = y + 5*mm
 
+    c.setFont("Helvetica-Bold", 10)
+    c.drawString(dot_start_x - 60*mm, dot_y - 3*mm, "Senha de Bloqueio:")
+
     for row in range(3):
         for col in range(3):
-           
-            cx = dot_start_x + col*8*mm
-            cy = dot_y - row*8*mm
+            cx = dot_start_x + col * 8 * mm
+            cy = dot_y - row * 8 * mm
+            
             c.circle(cx, cy, 2*mm, stroke=1, fill=0)
+
+    desc_x = dot_start_x - 60*mm 
+    desc_y = dot_y + 1*mm
+
+    c.setFont("Helvetica", 8)
+    c.drawString(desc_x, desc_y, "Informe a senha de desbloqueio do celular")
+
 
 
     y_footer = 20*mm
     c.setFont("Helvetica", 6)
-    c.drawString(20*mm, y_footer+10*mm, "Tratamento da Liga: seguir normas de assistência técnica conforme Min. E.")
-    c.drawString(20*mm, y_footer+5*mm, "Dopção Relatada pelo Clímaxo: válida por 30 dias.")
+    c.drawString(20*mm, y_footer+10*mm, "Tratamento da Liga: seguir as normas de assistência técnica conforme regulamentação vigente.")
+    c.drawString(20*mm, y_footer+5*mm, "Garantia dos serviços executados: 30 dias, contados a partir da data de conclusão.")
 
     c.showPage()
     c.save()
