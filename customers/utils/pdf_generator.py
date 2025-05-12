@@ -22,7 +22,7 @@ def generate_os_pdf(customer):
 
     c.setFont("Helvetica-Bold", 18)
     c.drawString(20*mm, h-20*mm, "[Logo]")
-    c.drawString(55*mm, h-20*mm, "Sua Loja - Assistência Fechada")
+    c.drawString(55*mm, h-20*mm, "JamesCell - Assistência Técnica")
     c.setFont("Helvetica", 9)
     c.drawString(55*mm, h-25*mm, "VQ XXXXX - XXXX | Sigamos, Endereço da Liga")
 
@@ -52,23 +52,22 @@ def generate_os_pdf(customer):
     y = y - h_table - 10*mm
     tech_data = [
         ['Número da OS', 'Data de Fechamento', 'Preço Total'],
-        [f"{customer.id}", customer.created_at.strftime("%d/%m/%Y"), f"R$ {customer.price:,.2f}"],
+        [f"{customer.id}", customer.created_at.strftime("%d/%m/%Y"), f"R$ {customer.service_price:,.2f}"],
     ]
     t2 = Table(tech_data, colWidths=[50*mm, 50*mm, 50*mm])
     t2.setStyle(TableStyle([
         ('GRID',      (0,0), (-1,-1), 0.5, colors.black),
         ('BACKGROUND',(0,0),(-1,0), colors.lightgrey),
-        ('ALIGN',     (2,1),(2,1), 'RIGHT'),
+        ('ALIGN',     (3,1),(3,1), 'RIGHT'),
         ('TEXTCOLOR',(2,1),(2,1), colors.red),
         ('FONTNAME',  (0,0),(-1,0), 'Helvetica-Bold'),
     ]))
     w2, h2 = t2.wrapOn(c, w, h)
     t2.drawOn(c, 20*mm, y-h2)
 
-
     y = y - h2 - 15*mm
     approval_data = [
-        ['Responsável Técnico:', '_______________________________'],
+        ['Responsável Técnico:'],
         ['Cláusulas:', 'Sem Recurso | Sem Cláusula'],
     ]
     t3 = Table(approval_data, colWidths=[50*mm, 120*mm])
@@ -78,15 +77,18 @@ def generate_os_pdf(customer):
         ('LINEBELOW',(1,0),(1,0), 0.25, colors.gray),
     ]))
     w3, h3 = t3.wrapOn(c, w, h)
-    t3.drawOn(c, 20*mm, y-h3)
+    t3.drawOn(c, 20*mm, y-h3 - 20*mm)
 
     dot_start_x = w - 20*mm - 40*mm
     dot_y = y + 5*mm
-    for row in range(2):
+
+    for row in range(3):
         for col in range(3):
+           
             cx = dot_start_x + col*8*mm
             cy = dot_y - row*8*mm
             c.circle(cx, cy, 2*mm, stroke=1, fill=0)
+
 
     y_footer = 20*mm
     c.setFont("Helvetica", 6)
