@@ -7,7 +7,13 @@ class Customer(models.Model):
     email = models.EmailField(blank=False, null=False)
     phone = models.CharField(max_length=20, blank=False, null=False)
     description = models.CharField(max_length=255, blank=False, null=False) 
-    price = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
+
+    cost_price = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
+    service_price = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
+
+    @property
+    def profit(self):
+        return self.service_price - self.cost_price
 
     created_at  = models.DateTimeField(auto_now_add=True)
     updated_at  = models.DateTimeField(auto_now=True)
