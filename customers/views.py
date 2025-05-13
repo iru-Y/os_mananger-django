@@ -50,3 +50,26 @@ class CustomerViewSet(viewsets.ModelViewSet):
         )
         email.attach(f'OS_{customer.id}.pdf', pdf_buffer.read(), 'application/pdf')
         email.send(fail_silently=False)
+
+        def perform_destroy(self, instance):
+                user = self.request.user
+                subject = f"Ordem de Serviço #{instance.id} deletada"
+                body = render_to_string('customers/emails/os_deleted.txt', {
+                    'customer': instance,
+                    'user':     user,
+                })
+                email = EmailMessage(
+                    subject=subject,
+                    body=body,
+                    to=[instance.email, user.email],
+                )
+                email.send(fail_silently=True)
+
+                instance.delete()
+
+        def destroy(self, request, *args, **kwargs):
+           
+            instance = self.get_object()
+            self.perform_destroy(instance)
+            return Response({'detail': 'OS excluída com sucesso.'},
+                            status=status.HTTP_204_NO_CONTENT)
