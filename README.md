@@ -20,7 +20,7 @@ Este é um projeto Django para gerenciar sistemas operacionais e seus recursos. 
 
 1. Clone o repositório:
    ```bash
-   git clone <URL_DO_REPOSITORIO>
+   git clone https://github.com/iru-Y/os_mananger-django
    cd os_manager-django
    ```
 
